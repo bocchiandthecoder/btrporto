@@ -1,0 +1,46 @@
+SELECT
+  *
+FROM
+  beans_brigade
+WHERE
+  provider_type = {{ Provider }}
+{% if Location_ID != '' %}
+  AND location_id = '{{ Location_ID }}'
+{% endif %}
+{% if Store_Name != '' %}
+  AND store_name ilike '%{{ Store_Name }}%'
+{% endif %}
+{% if Store_Address != '' %}
+  AND store_address_line_1 ilike '%{{ Store_Address }}%'
+{% endif %}
+ORDER BY
+  created_at DESC
+
+{% form %}
+
+Provider:
+  type: multiselect
+  default: toast
+  options: [deliverect,deliverit_production,tacit,toast,adora,xoikos,microworks,myr_production,nextorder_production,cake_prod,nextbite_production,ordermark_production,otter_production,clover,qubeyond_v2,heartland,crisp,rpower_production,see_my_store,shift4,snappy_innovations_production]
+  label: Provider
+  description: "Select the provider you wish to query by"
+
+Location_ID:
+  type: text
+  default: ''
+  label: Location ID
+  description: "This is the Location ID if you have it. Leave it blank if you do not have it"
+
+Store_Name:
+  type: text
+  default: ''
+  label: Store Name
+  description: "Remember to not search with apostrophe's! SQL Queries do not support the use of them in strings of text"
+
+Store_Address:
+  type: text
+  default: ''
+  label: Store Address
+  description: "It is best to only search by the numbers of the address as there is no unfiform way providers keep the addresses"
+  
+{% endform %}
